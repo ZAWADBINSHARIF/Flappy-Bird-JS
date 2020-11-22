@@ -195,7 +195,7 @@ function hitDownWall(downWall) {
     // let upEnemy = document.querySelectorAll('.upWall').getBoundingClientRect()
 
     return !(
-        (hero.bottom-5 <= enemy.top) || (hero.right <= enemy.left) || (hero.left-5 >= enemy.right)
+        (hero.bottom-5 <= enemy.top) || (hero.right-5 <= enemy.left) || (hero.left+5 >= enemy.right)
     )
 
 }
@@ -207,7 +207,7 @@ function hitUpWall(upWall) {
     // let upEnemy = document.querySelectorAll('.upWall').getBoundingClientRect()
 
     return !(
-        (hero.top-5 >= enemy.bottom) || (hero.right <= enemy.left) || (hero.left-5 >= enemy.right)
+        (hero.top+5 >= enemy.bottom) || (hero.right+5 <= enemy.left) || (hero.left-5 >= enemy.right)
     )
 
 }
