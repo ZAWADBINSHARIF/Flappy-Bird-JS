@@ -11,7 +11,7 @@ body{
     display: none;
 }
 
-.button{
+.button, .scoreBord{
     background-color: darkviolet;
     color: white;
     width: 150px;
@@ -24,6 +24,20 @@ body{
     cursor: pointer;
     font-weight: 700;
     transition: all .5s;
+}
+
+.scoreBord{
+    color: white;
+    background-color: cornflowerblue;
+    text-align: center;
+    position: absolute;
+    top: 24px;
+    left: 16px;
+    font-size: 1.5rem;
+    /* height: 50px; */
+    width: 180px;
+    box-shadow: 0 5px 5px black;
+    line-height: 60px;
 }
 
 .button:hover{

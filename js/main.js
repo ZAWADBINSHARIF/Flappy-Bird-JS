@@ -3,9 +3,9 @@ const gameMenu = document.querySelector('.gameMenu')
 const play = document.querySelector('#play')
 const players = document.querySelector('#player')
 const highScore = document.querySelector('#highScore')
+const body = document.querySelector('body')
 
 const gameArea = document.querySelector('.gameArea')
-const scoreBord = document.querySelector('.scoreBord')
 
 const soundBtn = document.querySelector('.soundBtn')
 
@@ -16,7 +16,8 @@ let player = {
     speed: 2,
     gravity: 3,
     fly: 60,
-    wallGap: 200
+    wallGap: 200,
+    score: 0 
 }
 
 document.addEventListener('keydown', birdFly)
@@ -31,6 +32,10 @@ function startGame() {
 
     gameMenu.classList.add('hide')
     gameArea.classList.remove('hide')
+
+    const scoreBord = document.createElement('div')
+    scoreBord.classList.add('scoreBord')
+    body.appendChild(scoreBord)
 
     const bird = document.createElement('div')
     bird.classList.add('bird')
@@ -69,13 +74,13 @@ const gravity = function () {
 
     // console.log(player.y);
 
-    if (player.y <= 576) {
+    if (player.y <= 545) {
         player.y += player.gravity
         bird.style.top = player.y + 'px'
 
         if(player.y >= 300) bird.style.transform = 'rotate(20deg)'
         
-    }
+    }else gameOver()
 
 }
 
@@ -166,6 +171,10 @@ function moveWall(bird) {
             item.style.top = down_Wall_Y + 'px'
 
         }
+
+        if (item.x == 400 ) {
+            ++player.score
+        }
     })
 
     const allUpWall = document.querySelectorAll('.upWall')
@@ -220,12 +229,15 @@ function hitUpWall(bird, upWall) {
 function gamePlay() {
 
     let bird = document.querySelector('.bird')
+    let scoreBord = document.querySelector('.scoreBord')
     
     if (player.ready) {
 
         gravity()
         moveWall(bird)
         moveCloud()
+
+        scoreBord.innerHTML = `<p> Score: ${player.score} </p>`
 
         requestAnimationFrame(gamePlay)
     }
@@ -247,6 +259,7 @@ function gameOver() {
         gameArea.innerHTML = ''
     gameMenu.classList.remove('hide')
     gameArea.classList.add('hide')
+    player.score = 0
     }, 3000)
     
 }
