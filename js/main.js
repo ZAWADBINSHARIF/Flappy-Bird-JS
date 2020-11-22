@@ -3,7 +3,7 @@ const gameMenu = document.querySelector('.gameMenu')
 const play = document.querySelector('#play')
 const players = document.querySelector('#player')
 const highScore = document.querySelector('#highScore')
-const body = document.querySelector('body')
+const scoreBord = document.querySelector('.scoreBord')
 
 const gameArea = document.querySelector('.gameArea')
 
@@ -32,10 +32,6 @@ function startGame() {
 
     gameMenu.classList.add('hide')
     gameArea.classList.remove('hide')
-
-    const scoreBord = document.createElement('div')
-    scoreBord.classList.add('scoreBord')
-    body.appendChild(scoreBord)
 
     const bird = document.createElement('div')
     bird.classList.add('bird')
@@ -229,7 +225,6 @@ function hitUpWall(bird, upWall) {
 function gamePlay() {
 
     let bird = document.querySelector('.bird')
-    let scoreBord = document.querySelector('.scoreBord')
     
     if (player.ready) {
 
@@ -237,7 +232,7 @@ function gamePlay() {
         moveWall(bird)
         moveCloud()
 
-        scoreBord.innerHTML = `<p> Score: ${player.score} </p>`
+        scoreBord.innerHTML = `<p> Score: ${player.score} </p>` 
 
         requestAnimationFrame(gamePlay)
     }
