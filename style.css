@@ -76,10 +76,7 @@ body{
     width: 70px;
     height: 60px;
     z-index: 2;
-    /* background-color: deeppink;
-    border-radius: 25px;
-    border: 2px solid rgb(0, 0, 0); */
-
+    transition: transform 1s;
     background-image: url(./img/02.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;

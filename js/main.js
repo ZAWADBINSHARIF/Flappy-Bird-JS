@@ -58,6 +58,7 @@ function birdFly(e) {
         player.y -= player.fly
 
         bird.style.top = player.y + 'px'
+        bird.style.transform = 'rotate(-20deg)'
     }
 }
 
@@ -72,6 +73,8 @@ const gravity = function () {
         player.y += player.gravity
         bird.style.top = player.y + 'px'
 
+        if(player.y >= 300) bird.style.transform = 'rotate(20deg)'
+        
     }
 
 }
@@ -141,13 +144,13 @@ function createDownWall() {
     }
 }
 
-function moveWall() {
+function moveWall(bird) {
     const allDownWall = document.querySelectorAll('.downWall')
     let down_Wall_Y = random_Num(300, 500)
 
     allDownWall.forEach(function (item) {
 
-        if( hitDownWall(item) ) {
+        if( hitDownWall(bird,item) ) {
             // console.log('HIT DOWN WALL');
 
             gameOver()
@@ -169,7 +172,7 @@ function moveWall() {
 
     allUpWall.forEach(function (item) {
 
-        if( hitUpWall(item) ) {
+        if( hitUpWall(bird, item) ) {
             // console.log("HIT UP WALL");
 
             gameOver()
@@ -188,46 +191,50 @@ function moveWall() {
     })
 }
 
-function hitDownWall(downWall) {
-    let hero = document.querySelector('.bird').getBoundingClientRect()
+function hitDownWall(bird, downWall) {
+
+    let hero = bird.getBoundingClientRect()
     let enemy = downWall.getBoundingClientRect()
     // let downEnemy = document.querySelectorAll('.downWall').getBoundingClientRect()
     // let upEnemy = document.querySelectorAll('.upWall').getBoundingClientRect()
 
     return !(
-        (hero.bottom-5 <= enemy.top) || (hero.right-5 <= enemy.left) || (hero.left+5 >= enemy.right)
+        (hero.bottom-10 <= enemy.top) || (hero.right-10 <= enemy.left) || (hero.left+10 >= enemy.right)
     )
 
 }
 
-function hitUpWall(upWall) {
-    let hero = document.querySelector('.bird').getBoundingClientRect()
+function hitUpWall(bird, upWall) {
+
+    let hero = bird.getBoundingClientRect()
     let enemy = upWall.getBoundingClientRect()
     // let downEnemy = document.querySelectorAll('.downWall').getBoundingClientRect()
     // let upEnemy = document.querySelectorAll('.upWall').getBoundingClientRect()
 
     return !(
-        (hero.top+5 >= enemy.bottom) || (hero.right+5 <= enemy.left) || (hero.left-5 >= enemy.right)
+        (hero.top+10 >= enemy.bottom) || (hero.right-10 <= enemy.left) || (hero.left+10 >= enemy.right)
     )
 
 }
 
 function gamePlay() {
 
+    let bird = document.querySelector('.bird')
+    
     if (player.ready) {
 
         gravity()
-        moveWall()
+        moveWall(bird)
         moveCloud()
 
-
+        requestAnimationFrame(gamePlay)
     }
 
     // let birder = document.querySelector('.bird')
     // console.log('right' + birder.getBoundingClientRect().right);
     // console.log('left' + birder.getBoundingClientRect().left);
 
-    requestAnimationFrame(gamePlay)
+    
 }
 
 function gameOver() {
@@ -235,4 +242,11 @@ function gameOver() {
     player.ready = false
 
     console.log("GAME OVER");
+ 
+    setTimeout(()=> {
+        gameArea.innerHTML = ''
+    gameMenu.classList.remove('hide')
+    gameArea.classList.add('hide')
+    }, 3000)
+    
 }
