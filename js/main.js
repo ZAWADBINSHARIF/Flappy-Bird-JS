@@ -9,18 +9,19 @@ const gameArea = document.querySelector('.gameArea')
 
 const soundBtn = document.querySelector('.soundBtn')
 
-play.addEventListener("click", startGame)
-
 let player = {
     ready: false,
     speed: 2,
     gravity: 3,
     fly: 60,
     wallGap: 200,
-    score: 0 
+    score: 0
 }
 
+play.addEventListener("click", startGame)
+
 document.addEventListener('keydown', birdFly)
+document.addEventListener('touchstart', birdFly)
 
 function random_Num(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
@@ -53,9 +54,7 @@ function birdFly(e) {
 
     let bird = document.querySelector('.bird')
 
-    // console.log(e.keyCode);
-
-    if ((e.keyCode === 32 || e.keyCode === 38) && player.ready && player.y >= 0) {
+    if ((e.keyCode === 32 || e.keyCode === 38 || e.bubbles) && player.ready && player.y >= 0) {
         player.y -= player.fly
 
         bird.style.top = player.y + 'px'
@@ -67,8 +66,6 @@ const gravity = function () {
 
     let bird = document.querySelector('.bird')
     let floor = gameDisplay.getBoundingClientRect()
-
-    // console.log(player.y);
 
     if (player.y <= 545) {
         player.y += player.gravity
@@ -152,7 +149,6 @@ function moveWall(bird) {
     allDownWall.forEach(function (item) {
 
         if( hitDownWall(bird,item) ) {
-            // console.log('HIT DOWN WALL');
 
             gameOver()
         }
@@ -178,7 +174,6 @@ function moveWall(bird) {
     allUpWall.forEach(function (item) {
 
         if( hitUpWall(bird, item) ) {
-            // console.log("HIT UP WALL");
 
             gameOver()
         }
@@ -200,8 +195,6 @@ function hitDownWall(bird, downWall) {
 
     let hero = bird.getBoundingClientRect()
     let enemy = downWall.getBoundingClientRect()
-    // let downEnemy = document.querySelectorAll('.downWall').getBoundingClientRect()
-    // let upEnemy = document.querySelectorAll('.upWall').getBoundingClientRect()
 
     return !(
         (hero.bottom-10 <= enemy.top) || (hero.right-10 <= enemy.left) || (hero.left+10 >= enemy.right)
@@ -213,8 +206,6 @@ function hitUpWall(bird, upWall) {
 
     let hero = bird.getBoundingClientRect()
     let enemy = upWall.getBoundingClientRect()
-    // let downEnemy = document.querySelectorAll('.downWall').getBoundingClientRect()
-    // let upEnemy = document.querySelectorAll('.upWall').getBoundingClientRect()
 
     return !(
         (hero.top+10 >= enemy.bottom) || (hero.right-10 <= enemy.left) || (hero.left+10 >= enemy.right)
@@ -232,17 +223,11 @@ function gamePlay() {
         moveWall(bird)
         moveCloud()
 
-        scoreBord.innerHTML = `<p> Score: ${player.score} </p>` 
-
         requestAnimationFrame(gamePlay)
     }
-
-    // let birder = document.querySelector('.bird')
-    // console.log('right' + birder.getBoundingClientRect().right);
-    // console.log('left' + birder.getBoundingClientRect().left);
-
     
 }
+
 
 function gameOver() {
 
