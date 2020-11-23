@@ -15,8 +15,15 @@ let player = {
     gravity: 3,
     fly: 60,
     wallGap: 200,
-    score: 0
+    score: 0,
+    high_Score: 0,
+    change: false,
 }
+
+players.addEventListener('click', function() {
+    player.change = true
+    players.innerHTML = 'Player 2'
+})
 
 play.addEventListener("click", startGame)
 
@@ -38,6 +45,10 @@ function startGame() {
     bird.classList.add('bird')
     gameArea.appendChild(bird)
     player.y = bird.offsetTop
+
+    if(player.change) {
+        bird.style.backgroundImage = 'url(./img/02.png)'
+    }
 
 
 
@@ -86,9 +97,11 @@ function createCloud() {
 
         cloud.x = random_Num(200, 1000) * -1
         cloud.y = random_Num(20, 150)
+        cloud.color = random_Num(1, 5)
 
         cloud.style.top = cloud.y + 'px'
         cloud.style.right = cloud.x + 'px'
+        cloud.style.backgroundImage = `url(./img/cloud_0${cloud.color}.png)`
 
         gameArea.appendChild(cloud)
     }
@@ -213,6 +226,12 @@ function hitUpWall(bird, upWall) {
 
 }
 
+highScore.addEventListener('click', function() {
+
+    let high_Score = localStorage.getItem('High Score')
+    scoreBord.innerHTML = `High Score: ${high_Score}` 
+})
+
 function gamePlay() {
 
     let bird = document.querySelector('.bird')
@@ -222,6 +241,13 @@ function gamePlay() {
         gravity()
         moveWall(bird)
         moveCloud()
+
+        scoreBord.innerHTML = `Score: ${player.score}` 
+        if(player.score > player.high_Score) {
+
+            player.high_Score = player.score  
+            localStorage.setItem('High Score', player.high_Score.toString())
+        }  
 
         requestAnimationFrame(gamePlay)
     }
@@ -240,6 +266,8 @@ function gameOver() {
     gameMenu.classList.remove('hide')
     gameArea.classList.add('hide')
     player.score = 0
+    players.innerHTML = 'Player 1'
+    player.change = false
     }, 3000)
     
 }
